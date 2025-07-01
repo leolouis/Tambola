@@ -1,0 +1,119 @@
+Sub CreateMultipleTambolaTickets()
+    Dim ws As Worksheet
+    Dim ticket(1 To 3, 1 To 9) As Variant
+    Dim colRanges(1 To 9, 1 To 2) As Integer
+    Dim usedNumbers (1 To 90) As Boolean
+    Dim rowSet (1 To 3) As Collection
+    Dim r As Integer, c As Integer, num As Integer
+    Dim t As Integer, startRow As Integer
+    Dim ticketCount As Integer
+    
+    Set ws = ActiveSheet
+    ws.Cell.Clear
+
+    'Ask how many tickets 
+    ticketCount = InputBox("How many Tambola Tickets do you want to generate?","Tambola Ticket Generator")
+    If ticketCount <1 Then Exit Sub
+
+    'Set column range for each column (1-10, 11-20, ..., 81-90)
+    For c = 1 To 9
+        colRanges(c, 1) = (c - 1) * 10 + 1
+        colRanges(c, 2) = c * 10
+    Next c
+
+    'Loop through number of tickets
+    For t = 0 To ticketCount - 1
+        startRow =  t * 5 + 2
+
+        ws.Cell(startRow - 1, 1).Value = "Ticket " & (t + 1)
+        ws.Cell(startRow - 1, 1).Font.Bold = True
+        
+        'Reset used numbers
+        For num = 1 To 90: usedNumbers(num) = False: Next num
+
+        'Clear ticket matrix
+        For r = 1 To 3: For c = 1 To 9: ticket (r, c) = Empty: Next c: Next r
+
+        'Initialize row collections
+        For r = 1 To 3: Set rowSet(r) = New Collection: Next r
+
+        'Fill 5 numbers per row
+        For r = 1 To 3
+            Do While rowSet(r).Count < 5
+                c = Int (Rnd() * 9) + 1
+                If IsEmpty(ticket(r, c)) Then
+                    Do
+                        num = Int(Rnd() * (colRanges(c, 2) - colRanges(c, 1) + 1)) + colRanges(c, 1)
+                    Loop While usedNumbers (num)
+                    ticket(r, c) = num
+                    usedNumbers(num) = True
+                    rowSet(r).Add num
+                End If
+            Loop
+        Next r
+
+        'Sort numbers in each row left to right
+        For r = 1 To 3
+            Dim tempRow(1 To 9) As Variant
+            Dim sortedRow() As Integer
+            Dim idx As Integer: idx = 0
+
+            For c = 1 To 9
+                tempRow(c) = ticket(r, c)
+                If Not IsEmpty(tempRow(c)) Ten idx = idx + 1
+            Next c
+
+            If idx > 0 Then 
+                ReDim sortedkow (1 To idx) 
+                idx = 1 
+                For c = 1 To 9 
+                    If Not IsEmpty(tempRow(c)) Then 
+                    sortedRow(idx) = tempRow(c) 
+                    idx = idx + 1 
+                    End If 
+                Next c
+            Call BubbleSort (sortedRow) 
+            End If
+
+            idx = 1 
+            For c = 1 Το 9 
+                If Not IsEmpty(ticket (r, c)) Then 
+                    ticket (r, c) = sortedRow(idx)
+                    idx = idx + 1 
+                End If 
+            Next c
+         Next r
+
+         'Output ticket to sheet 
+         For r = 1 Το 3 
+             For c = 1 To 9 
+                 ws.Cells(startRow + r - 1, c).Value = ticket (r, c) 
+             Next c
+         Next r
+
+         'Format ticket layout 
+             With ws.Range(ws.Cells(startRow, 1), ws.Cells(startRow + 2, 9)) 
+                 .Borders.LineStyle = x1Continuous
+                 .Font.Size = 14 
+                 .HorizontalAlignment = xiCenter
+                 .VerticalAlignment = xlCenter 
+                 .ColumnWidth = 6
+             End With
+         Next t
+
+MsgBox ticketCount & " Tambola tickets created with sorted numbers!", vbInformation
+End Sub
+
+
+Sub BubbleSort (arr() As Integer)
+    Dim i As Integer, j As Integer, temp As Integer 
+    For i LBound(arr) To UBound (arr)-1 
+        For j = i + 1 To UBound(arr)
+            If arr(i) > arr(j) Then 
+                temp = arr(i)
+                arr(i) = arr(j) 
+                arr(j) = temp
+            End If
+        Next j
+    Next i
+End Sub 
