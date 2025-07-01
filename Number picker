@@ -1,0 +1,19 @@
+Dim picked(1 to 90) As Boolean
+Dim count As Integer
+
+Sub PickNextNumber()
+    Dim num As Integer
+
+    If count = 90 Then
+        MsgBox "All 90 number have been picked!", vbInformation
+        Exit Sub
+    End If
+
+    Do
+        num = Int(Rnd()*90)+1
+    Loop While picked(num) = True
+
+    picked(num) = True
+    count= count + 1
+    Cell(1,count).Value = num 'Put number in Row 1, next column
+End Sub
