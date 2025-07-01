@@ -9,7 +9,7 @@ Sub CreateMultipleTambolaTickets()
     Dim ticketCount As Integer
     
     Set ws = ActiveSheet
-    ws.Cell.Clear
+    ws.Cells.Clear
 
     'Ask how many tickets 
     ticketCount = InputBox("How many Tambola Tickets do you want to generate?","Tambola Ticket Generator")
@@ -60,7 +60,7 @@ Sub CreateMultipleTambolaTickets()
 
             For c = 1 To 9
                 tempRow(c) = ticket(r, c)
-                If Not IsEmpty(tempRow(c)) Ten idx = idx + 1
+                If Not IsEmpty(tempRow(c)) Then idx = idx + 1
             Next c
 
             If idx > 0 Then 
@@ -95,7 +95,7 @@ Sub CreateMultipleTambolaTickets()
              With ws.Range(ws.Cells(startRow, 1), ws.Cells(startRow + 2, 9)) 
                  .Borders.LineStyle = x1Continuous
                  .Font.Size = 14 
-                 .HorizontalAlignment = xiCenter
+                 .HorizontalAlignment = xlCenter
                  .VerticalAlignment = xlCenter 
                  .ColumnWidth = 6
              End With
