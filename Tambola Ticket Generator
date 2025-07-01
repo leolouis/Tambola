@@ -64,7 +64,7 @@ Sub CreateMultipleTambolaTickets()
             Next c
 
             If idx > 0 Then 
-                ReDim sortedkow (1 To idx) 
+                ReDim sortedRow (1 To idx) 
                 idx = 1 
                 For c = 1 To 9 
                     If Not IsEmpty(tempRow(c)) Then 
@@ -76,7 +76,7 @@ Sub CreateMultipleTambolaTickets()
             End If
 
             idx = 1 
-            For c = 1 Το 9 
+            For c = 1 To 9 
                 If Not IsEmpty(ticket (r, c)) Then 
                     ticket (r, c) = sortedRow(idx)
                     idx = idx + 1 
