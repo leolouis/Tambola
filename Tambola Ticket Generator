@@ -85,7 +85,7 @@ Sub CreateMultipleTambolaTickets()
          Next r
 
          'Output ticket to sheet 
-         For r = 1 Το 3 
+         For r = 1 To 3 
              For c = 1 To 9 
                  ws.Cells(startRow + r - 1, c).Value = ticket (r, c) 
              Next c
@@ -93,7 +93,7 @@ Sub CreateMultipleTambolaTickets()
 
          'Format ticket layout 
              With ws.Range(ws.Cells(startRow, 1), ws.Cells(startRow + 2, 9)) 
-                 .Borders.LineStyle = x1Continuous
+                 .Borders.LineStyle = xlContinuous
                  .Font.Size = 14 
                  .HorizontalAlignment = xlCenter
                  .VerticalAlignment = xlCenter 
